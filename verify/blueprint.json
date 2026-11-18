@@ -1,0 +1,11 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "landingPage": "/contact/",
+  "preferredVersions": { "php": "8.2", "wp": "latest" },
+  "steps": [
+    { "step": "installPlugin", "pluginData": { "resource": "wordpress.org/plugins", "slug": "wpforms-lite" } },
+    { "step": "installPlugin", "pluginData": { "resource": "wordpress.org/plugins", "slug": "official-facebook-pixel" } },
+    { "step": "installPlugin", "pluginData": { "resource": "wordpress.org/plugins", "slug": "plugin-check" } },
+    { "step": "runPHP", "code": "<?php require '/wordpress/verify/setup.php';" }
+  ]
+}

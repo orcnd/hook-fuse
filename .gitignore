@@ -1,0 +1,5 @@
+dist/
+scratch/
+scratch-playground.log
+verify/.playground/
+.DS_Store
