@@ -33,13 +33,16 @@ Hook Fuse sits between WordPress and the plugins you choose. When a protected pl
 
 Hook Fuse hides errors from visitors, not from you. It is a stopgap until the plugin's author fixes the bug, so please report the errors you see in the log to them.
 
-**Privacy.** Hook Fuse makes no external requests and sends no data anywhere. The log is stored in your own database and the weekly email goes through your site's own mail settings.
+**Privacy.** Hook Fuse makes no HTTP requests to any outside service and has no tracking. The log is stored in your own database.
+
+The one thing that leaves your site is the weekly email. It is on by default and is sent only in a week when new errors were caught, to the site's admin email address (Settings > General). It goes out through your site's own mail setup (`wp_mail`), not through any service run by Hook Fuse. It contains the site name, and for each new error: the protected plugin's folder name, the hook name, the error message, the file path relative to wp-content and the line number, and how many times it happened. To stop it, untick "Weekly email" under Tools > Hook Fuse.
 
 == Installation ==
 
 1. Install and activate Hook Fuse from the Plugins screen.
 2. Open Tools > Hook Fuse and tick the plugins you want to protect.
-3. Check the log after plugin updates.
+3. The weekly email to the site's admin address is on by default. Untick "Weekly email" on the same page if you do not want it.
+4. Check the log after plugin updates.
 
 == Frequently Asked Questions ==
 
