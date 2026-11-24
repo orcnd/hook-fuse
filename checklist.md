@@ -19,7 +19,7 @@ Only the nonce field of the "Clear the log" form changed since 0.1.1.
 | 10 | readme.txt passes the readme validator | https://wordpress.org/plugins/developers/readme-validator/ | done | No errors or warnings (5110 bytes). Notes: no Upgrade Notice, no donate link |
 | 11 | Zip builds with only plugin files | `bin/build-zip.sh` | done | 8 files. `php -l` ran in the build |
 | 12 | Dashboard notice; uninstall | see 0.1.1, items 4a, 4b and 12 | not repeated | Code did not change since 0.1.1 |
-| 13 | Released | https://wordpress.org/plugins/hook-fuse/ | open | |
+| 13 | Released | https://wordpress.org/plugins/hook-fuse/ | done | SVN r3821311, GitHub 65a8061. API version 0.1.2; the published 0.1.2 zip is identical to the local build |
 
 # Checklist: 0.1.1
 
