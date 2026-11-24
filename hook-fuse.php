@@ -3,7 +3,7 @@
  * Plugin Name:       Hook Fuse
  * Plugin URI:        https://github.com/orcnd/hook-fuse
  * Description:       Stops a crash inside another plugin's hook from taking the whole page down. The error is caught, logged and reported once a week instead.
- * Version:           0.1.1
+ * Version:           0.1.2
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            orcnd
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'HOOK_FUSE_VERSION', '0.1.1' );
+define( 'HOOK_FUSE_VERSION', '0.1.2' );
 define( 'HOOK_FUSE_FILE', __FILE__ );
 define( 'HOOK_FUSE_DIR', plugin_dir_path( __FILE__ ) );
 

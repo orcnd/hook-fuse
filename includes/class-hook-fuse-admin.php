@@ -180,7 +180,7 @@ final class Hook_Fuse_Admin {
 				</table>
 				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 					<input type="hidden" name="action" value="hook_fuse_clear">
-					<?php wp_nonce_field( 'hook_fuse_clear' ); ?>
+					<?php wp_nonce_field( 'hook_fuse_clear', 'hook_fuse_clear_nonce' ); ?>
 					<?php submit_button( __( 'Clear the log', 'hook-fuse' ), 'secondary', 'hook-fuse-clear' ); ?>
 				</form>
 			<?php endif; ?>
@@ -250,7 +250,7 @@ final class Hook_Fuse_Admin {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_html__( 'You are not allowed to do this.', 'hook-fuse' ), 403 );
 		}
-		check_admin_referer( 'hook_fuse_clear' );
+		check_admin_referer( 'hook_fuse_clear', 'hook_fuse_clear_nonce' );
 		$this->log->clear();
 		wp_safe_redirect( admin_url( 'tools.php?page=' . self::PAGE ) );
 		exit;

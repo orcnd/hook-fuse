@@ -4,7 +4,7 @@ Tags: fatal error, error handling, error log, debugging, troubleshooting
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.1
+Stable tag: 0.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,9 @@ No. It wraps the plugin's hook callbacks in memory while the page loads. Deactiv
 3. Tools > Hook Fuse: the caught errors and the plugins to protect. The two "Example" plugins are demo plugins with a bug.
 
 == Changelog ==
+
+= 0.1.2 =
+* The hidden security fields of the two forms on the Hook Fuse page no longer share the same id.
 
 = 0.1.1 =
 * The error log fits narrow screens: long hook, callback and file names now break onto a new line, and on phones each value is shown under its column name.
