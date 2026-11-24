@@ -10,7 +10,7 @@ WordPress, WPForms Lite and Plugin Check from WordPress.org, plus two demo plugi
 | 2 | With Hook Fuse the same submission completes | /contact/, submit 3 times | done | Page text "Thanks, your message was received." each time |
 | 3 | Tools > Hook Fuse lists the caught errors | /wp-admin/tools.php?page=hook-fuse | done | 3 rows: the Meta pixel `TypeError` on `send_server_events` and one per demo plugin (`.wordpress-org/screenshot-3.png`) |
 | 4a | Dashboard notice appears | /wp-admin/ | done | "Hook Fuse caught 3 new errors in protected plugins. Your pages kept working." (`.wordpress-org/screenshot-2.png`) |
-| 4b | Dashboard notice goes away after opening the page | /wp-admin/ | open | Not repeated for 0.1.1; done for 0.1.0, and the notice code did not change |
+| 4b | Dashboard notice goes away after opening the page | /wp-admin/, /wp-admin/plugins.php | done | Published 0.1.1 zip. Before: "Hook Fuse caught 2 new errors in protected plugins. Your pages kept working." on both screens. After opening Tools > Hook Fuse (2 rows): no Hook Fuse notice on either. A new error brought it back; "Dismiss" hid it again |
 | 5 | Meta pixel ticked on first activation; settings save | /wp-admin/tools.php?page=hook-fuse | done | First activation: only `official-facebook-pixel` ticked. Save: "Settings saved.", log still there. Save ran just before the phone layout (CSS and `data-colname` only) was added. Switching the weekly email off was not repeated |
 | 6 | The log table fits narrow screens | same page at 390, 600, 782, 900, 1024, 1200, 1280, 1366 and 1440 px | done | No sideways page scroll at any width. In 0.1.0: 272 px at 1024, 96 at 1200, 16 at 1280 |
 | 7 | "Clear the log" and "Save Changes" have different ids; clear works | same page | done | `hook-fuse-clear` and `submit`. After clear: "Nothing caught yet." |
@@ -18,7 +18,7 @@ WordPress, WPForms Lite and Plugin Check from WordPress.org, plus two demo plugi
 | 9 | Plugin Check: no errors | Tools > Plugin Check, Hook Fuse, all categories, errors and warnings | done | "Checks complete. No errors found." |
 | 10 | readme.txt passes the readme validator | https://wordpress.org/plugins/developers/readme-validator/ | done | No errors or warnings (5002 bytes). Notes: no Upgrade Notice, no donate link |
 | 11 | Zip builds with only plugin files | `bin/build-zip.sh` | done | 8 files. `php -l` ran in the build |
-| 12 | Uninstall removes stored data | delete plugin | open | Not repeated for 0.1.1; done for 0.1.0, and uninstall.php did not change |
+| 12 | Uninstall removes stored data | Plugins > Delete, database read before and after | done | Published 0.1.1 zip, installed by upload. Before: options `hook_fuse_settings`, `hook_fuse_log`, `hook_fuse_digest_sent`, user meta `hook_fuse_seen`, cron `hook_fuse_weekly_digest`. After deactivating: cron gone, the rest kept. After "Hook Fuse was successfully deleted.": no options, no user meta, no cron, no folder. The mail was faked so the digest option exists |
 | 13 | Released | https://wordpress.org/plugins/hook-fuse/ | done | SVN r3821277, GitHub e411149. API version 0.1.1; the published 0.1.1 zip is identical to the local build; page shows the banner, icon and 3 screenshots at 1280 px |
 
 # Checklist: 0.1.0 (first WordPress.org release)
