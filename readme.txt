@@ -4,7 +4,7 @@ Tags: fatal error, error handling, error log, debugging, troubleshooting
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.0
+Stable tag: 0.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -78,10 +78,14 @@ No. It wraps the plugin's hook callbacks in memory while the page loads. Deactiv
 == Screenshots ==
 
 1. The same form, sent by a visitor: without Hook Fuse and with Hook Fuse.
-2. Tools > Hook Fuse: the caught errors and the plugins to protect. The two "Example" plugins are demo plugins with a bug.
-3. The notice on the Dashboard when something new was caught.
+2. The notice on the Dashboard when something new was caught.
+3. Tools > Hook Fuse: the caught errors and the plugins to protect. The two "Example" plugins are demo plugins with a bug.
 
 == Changelog ==
+
+= 0.1.1 =
+* The error log fits narrow screens: long hook, callback and file names now break onto a new line, and on phones each value is shown under its column name.
+* The "Clear the log" and "Save Changes" buttons no longer share the same id.
 
 = 0.1.0 =
 * First release: protected plugins list, error log, weekly email, admin notice.

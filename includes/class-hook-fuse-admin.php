@@ -43,6 +43,7 @@ final class Hook_Fuse_Admin {
 		add_action( 'admin_post_hook_fuse_clear', array( $this, 'handle_clear' ) );
 		add_action( 'admin_post_hook_fuse_dismiss', array( $this, 'handle_dismiss' ) );
 		add_action( 'admin_notices', array( $this, 'notice' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'styles' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( HOOK_FUSE_FILE ), array( $this, 'action_links' ) );
 	}
 
@@ -56,6 +57,27 @@ final class Hook_Fuse_Admin {
 			'manage_options',
 			self::PAGE,
 			array( $this, 'render' )
+		);
+	}
+
+	/**
+	 * Make the log fit narrow screens: long hook, callback and file names break, and on phones each cell
+	 * gets its own line with the column name. Printed on the Hook Fuse page only.
+	 *
+	 * @param string $hook_suffix Current admin page.
+	 */
+	public function styles( $hook_suffix ) {
+		if ( 'tools_page_' . self::PAGE !== $hook_suffix ) {
+			return;
+		}
+		wp_add_inline_style(
+			'common',
+			'.hook-fuse-log code { overflow-wrap: anywhere; }
+			@media (max-width: 600px) {
+				.hook-fuse-log thead { display: none; }
+				.hook-fuse-log td { display: block; overflow-wrap: anywhere; }
+				.hook-fuse-log td::before { content: attr(data-colname); display: block; font-weight: 600; }
+			}'
 		);
 	}
 
@@ -134,7 +156,7 @@ final class Hook_Fuse_Admin {
 			<?php if ( empty( $entries ) ) : ?>
 				<p><?php esc_html_e( 'Nothing caught yet.', 'hook-fuse' ); ?></p>
 			<?php else : ?>
-				<table class="widefat striped">
+				<table class="widefat striped hook-fuse-log">
 					<thead>
 						<tr>
 							<th><?php esc_html_e( 'Last seen', 'hook-fuse' ); ?></th>
@@ -147,11 +169,11 @@ final class Hook_Fuse_Admin {
 					<tbody>
 						<?php foreach ( $entries as $entry ) : ?>
 							<tr>
-								<td><?php echo esc_html( wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), (int) $entry['last'] ) ); ?></td>
-								<td><?php echo esc_html( number_format_i18n( (int) $entry['count'] ) ); ?></td>
-								<td><?php echo esc_html( $this->plugin_name( $entry['plugin'] ) ); ?></td>
-								<td><code><?php echo esc_html( $entry['hook'] ); ?></code><br><code><?php echo esc_html( $entry['callback'] ); ?></code></td>
-								<td><strong><?php echo esc_html( $entry['type'] ); ?></strong>: <?php echo esc_html( $entry['message'] ); ?><br><code><?php echo esc_html( $entry['where'] ); ?></code></td>
+								<td data-colname="<?php esc_attr_e( 'Last seen', 'hook-fuse' ); ?>"><?php echo esc_html( wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), (int) $entry['last'] ) ); ?></td>
+								<td data-colname="<?php esc_attr_e( 'Times', 'hook-fuse' ); ?>"><?php echo esc_html( number_format_i18n( (int) $entry['count'] ) ); ?></td>
+								<td data-colname="<?php esc_attr_e( 'Plugin', 'hook-fuse' ); ?>"><?php echo esc_html( $this->plugin_name( $entry['plugin'] ) ); ?></td>
+								<td data-colname="<?php esc_attr_e( 'Hook and callback', 'hook-fuse' ); ?>"><code><?php echo esc_html( $entry['hook'] ); ?></code><br><code><?php echo esc_html( $entry['callback'] ); ?></code></td>
+								<td data-colname="<?php esc_attr_e( 'Error', 'hook-fuse' ); ?>"><strong><?php echo esc_html( $entry['type'] ); ?></strong>: <?php echo esc_html( $entry['message'] ); ?><br><code><?php echo esc_html( $entry['where'] ); ?></code></td>
 							</tr>
 						<?php endforeach; ?>
 					</tbody>
@@ -159,7 +181,7 @@ final class Hook_Fuse_Admin {
 				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 					<input type="hidden" name="action" value="hook_fuse_clear">
 					<?php wp_nonce_field( 'hook_fuse_clear' ); ?>
-					<?php submit_button( __( 'Clear the log', 'hook-fuse' ), 'secondary' ); ?>
+					<?php submit_button( __( 'Clear the log', 'hook-fuse' ), 'secondary', 'hook-fuse-clear' ); ?>
 				</form>
 			<?php endif; ?>
 
