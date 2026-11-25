@@ -3,3 +3,8 @@ scratch/
 scratch-playground.log
 verify/.playground/
 .DS_Store
+docs/ai/
+.claude/settings.local.json
+.remember/
+.playwright-mcp/
+__pycache__/

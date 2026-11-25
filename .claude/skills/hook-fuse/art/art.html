@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+	/*
+	 * Concept: the fuse panel of a car. Each slot is a hook, each blade fuse a callback. One element is
+	 * burnt through (the plugin that threw); everything else stays lit.
+	 * Blade-fuse colors are the real ones: 10A red, 15A blue, 20A yellow, 25A clear, 30A green.
+	 */
+	:root {
+		--yellow: #f6c21c;
+		--ink: #17191c;
+		--panel: #2a2e33;
+		--slot: #1b1e22;
+		--metal: #d7dade;
+		--label: #f3f1ea;
+		--red: #d8392b;
+	}
+	* { box-sizing: border-box; margin: 0; padding: 0; }
+	body { background: #fff; font-family: "DIN Alternate", sans-serif; -webkit-font-smoothing: antialiased; }
+
+	.banner { position: relative; width: 772px; height: 250px; overflow: hidden; background: var(--yellow); color: var(--ink); }
+	.copy { position: absolute; left: 36px; top: 50px; width: 330px; }
+	.copy h1 { font-family: "DIN Condensed", sans-serif; font-size: 88px; line-height: 70px; letter-spacing: -.5px; text-transform: uppercase; padding-top: 8px; }
+	.copy p { font-size: 20px; line-height: 26px; margin-top: 18px; }
+	.panel { position: absolute; left: 376px; top: 0; width: 396px; height: 250px; background: var(--panel); }
+	svg { display: block; }
+</style>
+</head>
+<body>
+<div id="banner" class="banner">
+	<div class="copy">
+		<h1>Hook Fuse</h1>
+		<p>One plugin throws an error.<br>The rest of the page still loads.</p>
+	</div>
+	<div class="panel" id="panel"></div>
+</div>
+
+<div style="height:40px"></div>
+<div id="icon" style="width:256px;height:256px"></div>
+
+<script>
+const C = { yellow: '#f6c21c', ink: '#17191c', panel: '#2a2e33', slot: '#1b1e22', metal: '#d7dade', label: '#f3f1ea', red: '#d8392b' };
+
+// A blade fuse in a 100 x 146 box. Intact, the element is an arch; blown, what is left of it is a hook.
+function fuse(color, dark, amps, blown, sw) {
+	sw = sw || 7;
+	const element = blown
+		? `<path d="M33 106V66c0-25 34-25 34 0v9" /><path d="M67 106V92" />`
+		: `<path d="M33 106V66c0-25 34-25 34 0v40" />`;
+	return `
+		<rect x="23" y="98" width="20" height="48" rx="2" fill="${C.metal}"/>
+		<rect x="57" y="98" width="20" height="48" rx="2" fill="${C.metal}"/>
+		<path d="M4 0h92a4 4 0 0 1 4 4v28a4 4 0 0 1-4 4h-6v70a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4V36H4a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4z" fill="${color}"/>
+		<path d="M4 0h92a4 4 0 0 1 4 4v3H0V4a4 4 0 0 1 4-4z" fill="#fff" opacity=".28"/>
+		<rect x="10" y="36" width="80" height="4" fill="#000" opacity=".16"/>
+		<rect x="20" y="42" width="60" height="64" rx="3" fill="${dark}"/>
+		<g fill="none" stroke="${C.label}" stroke-width="${sw}" stroke-linecap="butt">${element}</g>
+		${amps ? `<text x="50" y="30" text-anchor="middle" font-family="DIN Alternate" font-size="25" fill="${dark}">${amps}</text>` : ''}`;
+}
+
+const slots = [
+	['init', '#2f6fc4', '#1a4585', 15],
+	['the_content', '#3f9a53', '#235f31', 30],
+	['wp_head', '#f6c21c', '#4a3700', 20, true],
+	['wp_footer', '#d8392b', '#861d13', 10],
+];
+let s = `<svg width="396" height="250" viewBox="0 0 396 250" xmlns="http://www.w3.org/2000/svg">`;
+slots.forEach(([name, color, dark, amps, blown], i) => {
+	const x = 24 + i * 92, y = blown ? 24 : 56;
+	s += `<rect x="${x - 4}" y="112" width="80" height="60" rx="4" fill="${C.slot}"/>`;
+	s += `<g transform="translate(${x} ${y}) scale(.72)">${fuse(color, dark, amps, blown)}</g>`;
+	// The front of the socket hides the blades once the fuse is pushed in.
+	s += `<path d="M${x - 4} 134h80v34a4 4 0 0 1-4 4h-72a4 4 0 0 1-4-4z" fill="${C.slot}"/>`;
+	s += `<rect x="${x - 4}" y="134" width="80" height="2" fill="#3a4047"/>`;
+});
+// The paper label under the sockets, as on a fuse box cover.
+s += `<rect x="14" y="192" width="368" height="36" rx="2" fill="${C.label}"/>`;
+slots.forEach(([name, , , , blown], i) => {
+	const x = 14 + i * 92;
+	if (blown) s += `<rect x="${x}" y="192" width="92" height="36" fill="${C.red}"/>`;
+	if (i) s += `<rect x="${x}" y="192" width="1" height="36" fill="#bcb8ac"/>`;
+	s += `<text x="${x + 46}" y="217" text-anchor="middle" font-family="DIN Condensed" font-size="18" letter-spacing=".2" fill="${blown ? '#fff' : C.ink}">${name}</text>`;
+});
+s += `</svg>`;
+document.getElementById('panel').innerHTML = s;
+
+document.getElementById('icon').innerHTML = `<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+	<rect width="256" height="256" fill="${C.panel}"/>
+	<g transform="translate(47 12) scale(1.6)">${fuse(C.yellow, C.ink, '', true, 10)}</g>
+</svg>`;
+</script>
+</body>
+</html>
